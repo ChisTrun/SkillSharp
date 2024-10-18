@@ -14,10 +14,11 @@ Các submodules sẽ được thêm vào trong repository này, mỗi submodule 
 
 ## Cài đặt
 
-Để clone dự án và tất cả các submodules, sử dụng lệnh sau:
-
 ```bash
-git clone --recurse-submodules <url-repo-chinh>
+git clone --recurse-submodules <url-repo-chinh> // clone toàn bộ cha lẫn con
 
-```bash
-git submodule add <repository-url> <path-to-folder> 
+git submodule add <repository-url> <path-to-folder>  // add submodule
+
+git submodule update --init --recursive // cập nhật các submodule
+
+
