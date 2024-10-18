@@ -19,6 +19,6 @@ git clone --recurse-submodules <url-repo-chinh> // clone toàn bộ cha lẫn co
 
 git submodule add <repository-url> <path-to-folder>  // add submodule
 
-git submodule update --init --recursive // cập nhật các submodule
+git submodule update --remote --recursive // cập nhật các submodule
 
 
