@@ -1,3 +1,6 @@
 [submodule "frontend/Pikachu"]
 	path = frontend/Pikachu
 	url = https://github.com/hungtruong03/Pikachu
+[submodule "backend/Bulbasaur"]
+	path = backend/Bulbasaur
+	url = https://github.com/ChisTrun/Bulbasaur
