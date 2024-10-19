@@ -4,7 +4,7 @@
 
 ## Giới thiệu
 
-Đây là repository tổng, nơi tập trung các repository con phục vụ cho các phần khác nhau của dự án. Chúng tôi sử dụng Git submodules để quản lý các repository con này, giúp duy trì cấu trúc gọn gàng và dễ dàng quản lý.
+Đây là repository tổng, nơi tập trung các repository con phục vụ cho các phần khác nhau của dự án. Chúng ta sử dụng Git submodules để quản lý các repository con này, giúp duy trì cấu trúc gọn gàng và dễ dàng quản lý.
 
 ## Cách thức hoạt động
 
