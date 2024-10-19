@@ -4,3 +4,9 @@
 [submodule "backend/Bulbasaur"]
 	path = backend/Bulbasaur
 	url = https://github.com/ChisTrun/Bulbasaur
+[submodule "backendDelibird"]
+	path = backendDelibird
+	url = https://github.com/hungtruong03/Delibird
+[submodule "backend/Delibird"]
+	path = backend/Delibird
+	url = https://github.com/hungtruong03/Delibird
