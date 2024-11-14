@@ -21,4 +21,6 @@ git submodule add <repository-url> <path-to-folder>  // add submodule
 
 git submodule update --remote --recursive // cập nhật các submodule
 
+git rm --cached path/to/submodule // xoá một submodule
+rm -rf path/to/submodule // xoá một submodule
 
