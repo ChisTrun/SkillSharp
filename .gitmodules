@@ -10,3 +10,6 @@
 [submodule "backend/Delibird"]
 	path = backend/Delibird
 	url = https://github.com/hungtruong03/Delibird
+[submodule "backend/Thresh"]
+	path = backend/Thresh
+	url = https://github.com/ginganotnigg/Thresh
