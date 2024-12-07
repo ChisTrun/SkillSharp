@@ -22,6 +22,20 @@ static_resources:
       name: myid_cluster
       type: logical_dns
     - connect_timeout: 1s
+      http2_protocol_options: {}
+      lb_policy: round_robin
+      load_assignment:
+        cluster_name: server_cluster
+        endpoints:
+          - lb_endpoints:
+              - endpoint:
+                  address:
+                    socket_address:
+                      address: server
+                      port_value: 8080
+      name: server_cluster
+      type: logical_dns
+    - connect_timeout: 1s
       lb_policy: round_robin
       load_assignment:
         cluster_name: rest_cluster
@@ -47,13 +61,29 @@ static_resources:
                 route_config:
                   name: local_route
                   virtual_hosts:
-                    - name: cms_service
-                      domains: ["*"]
+                    - cors:
+                        allow_headers: authorization,keep-alive,user-agent,cache-control,content-type,content-transfer-encoding,x-accept-content-transfer-encoding,x-accept-response-streaming,x-user-agent,x-grpc-web,grpc-timeout,x-language,x-custom-headers,connect-protocol-version
+                        allow_methods: GET, PUT, DELETE, POST, OPTIONS
+                        allow_origin_string_match:
+                          - prefix: "*"
+                        expose_headers: grpc-status,grpc-message
+                        max_age: "1728000"
+                      domains:
+                        - "*"
+                      name: cms_service
                       routes:
                         - match:
                             prefix: /myid.
                           route:
                             cluster: myid_cluster
+                        - match:
+                            prefix: /server.
+                          typed_per_filter_config:
+                            envoy.filters.http.ext_authz:
+                              "@type": type.googleapis.com/envoy.extensions.filters.http.ext_authz.v3.ExtAuthzPerRoute
+                              disabled: true
+                          route:
+                            cluster: server_cluster
                         - match:
                             prefix: /rest/
                           route:
@@ -61,26 +91,12 @@ static_resources:
                             prefix_rewrite: /
                             timeout: 60s
                 http_filters:
-                  - name: envoy.filters.http.lua
-                    typed_config:
-                      "@type": type.googleapis.com/envoy.extensions.filters.http.lua.v3.Lua
-                      inline_code: |-
-                        function envoy_on_request(request_handle)
-                          request_handle:headers():add("x-tenant-id", "CMS")
-                        end
                   - name: envoy.filters.http.grpc_web
                     typed_config:
                       "@type": type.googleapis.com/envoy.extensions.filters.http.grpc_web.v3.GrpcWeb
                   - name: envoy.filters.http.cors
                     typed_config:
                       "@type": type.googleapis.com/envoy.extensions.filters.http.cors.v3.Cors
-                  - name: envoy.filters.http.health_check
-                    typed_config:
-                      "@type": type.googleapis.com/envoy.extensions.filters.http.health_check.v3.HealthCheck
-                      headers:
-                        - exact_match: /status
-                          name: :path
-                      pass_through_mode: false
                   - name: envoy.filters.http.router
                     typed_config:
                       "@type": type.googleapis.com/envoy.extensions.filters.http.router.v3.Router 
